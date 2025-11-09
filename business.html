@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Business Trip Checklist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Business Trip Checklist</h1>
+  </header>
+  <main>
+    <div class="categories">
+      <div class="category">
+        <button class="collapsible">Clothing</button>
+        <div class="content">
+          <ul id="clothing-list">
+            <li>Suit</li>
+            <li>Dress Shirt</li>
+          </ul>
+          <input type="text" id="clothing-item" placeholder="Add item">
+          <button onclick="addItem('clothing')">Add</button>
+        </div>
+      </div>
+      <div class="category">
+        <button class="collapsible">Toiletries</button>
+        <div class="content">
+          <ul id="toiletries-list">
+            <li>Cologne</li>
+          </ul>
+          <input type="text" id="toiletries-item" placeholder="Add item">
+          <button onclick="addItem('toiletries')">Add</button>
+        </div>
+      </div>
+      <div class="category">
+        <button class="collapsible">Travel Essentials</button>
+        <div class="content">
+          <ul id="essentials-list">
+            <li>Laptop</li>
+          </ul>
+          <input type="text" id="essentials-item" placeholder="Add item">
+          <button onclick="addItem('essentials')">Add</button>
+        </div>
+      </div>
+      <div class="category">
+        <button class="collapsible">Optional Items</button>
+        <div class="content">
+          <ul id="optional-list">
+            <li>Notebook</li>
+          </ul>
+          <input type="text" id="optional-item" placeholder="Add item">
+          <button onclick="addItem('optional')">Add</button>
+        </div>
+      </div>
+    </div>
+    <button onclick="window.print()" class="print-button">Print Checklist</button>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
