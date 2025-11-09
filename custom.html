@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Trip Checklist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Custom Packing List</h1>
+        <p>Add your own items to your packing list.</p>
+    </header>
+
+    <main>
+        <form id="addItemForm">
+            <input type="text" id="itemInput" placeholder="Enter item name">
+            <button type="button" onclick="addItem()">Add Item</button>
+        </form>
+
+        <ul id="customList" class="checklist"></ul>
+
+        <button onclick="window.print()">Print Page</button>
+        <br><br>
+        <a href="index.html" class="button">Back to Home</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Simple Travel Pack</p>
+    </footer>
+
+    <script>
+        function addItem() {
+            const input = document.getElementById('itemInput');
+            const value = input.value.trim();
+            if(value === "") return;
+
+            const li = document.createElement('li');
+            li.innerHTML = `<input type="checkbox"> ${value} <button onclick="this.parentElement.remove()">Remove</button>`;
+            document.getElementById('customList').appendChild(li);
+
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
