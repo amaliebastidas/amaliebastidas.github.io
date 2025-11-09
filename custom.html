@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Trip Checklist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Custom Trip Checklist</h1>
+    </header>
+    <div class="container">
+        <input type="text" id="newItem" placeholder="Enter item name">
+        <button onclick="addItem()">Add Item</button>
+        <ul id="checklist"></ul>
+        <button onclick="window.print()">Print Checklist</button>
+    </div>
+
+    <script>
+        function addItem() {
+            let input = document.getElementById('newItem');
+            if(input.value.trim() === '') return;
+
+            let li = document.createElement('li');
+            li.innerHTML = `<label><input type="checkbox"> ${input.value}</label> <button onclick="removeItem(this)">Remove</button>`;
+            document.getElementById('checklist').appendChild(li);
+            input.value = '';
+        }
+
+        function removeItem(button) {
+            button.parentElement.remove();
+        }
+    </script>
+</body>
+</html>
