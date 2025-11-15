@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weekend Trip - Simple Travel Pack</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Weekend Trip</h1>
+    
+    <!-- Top buttons: Print, Download, Home -->
+    <div style="text-align: center; margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+      <button class="print-btn" onclick="window.print()">Print Page</button>
+      <button class="download-btn" onclick="downloadSnapshot()">Download Page</button>
+      <a href="index.html">
+        <button class="home-btn">Home</button>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Add Item Bar -->
+    <div class="add-item-bar">
+      <select id="categorySelect">
+        <option value="clothing">Clothing</option>
+        <option value="toiletries">Toiletries</option>
+        <option value="essentials">Travel Essentials</option>
+        <option value="optional">Optional Items</option>
+      </select>
+      <input type="text" id="newItemInput" placeholder="Add new item">
+      <button onclick="addItem()">Add Item</button>
+    </div>
+
+    <!-- Categories -->
+    <div class="categories">
+      <div class="category">
+        <button class="collapsible" onclick="toggleChecklist('clothingChecklist')">Clothing</button>
+        <ul id="clothingChecklist" class="checklist">
+          <li><input type="checkbox"> Jeans <button onclick="removeItem(this)">Remove</button></li>
+          <li><input type="checkbox"> T-shirts <button onclick="removeItem(this)">Remove</button></li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <button class="collapsible" onclick="toggleChecklist('toiletriesChecklist')">Toiletries</button>
+        <ul id="toiletriesChecklist" class="checklist">
+          <li><input type="checkbox"> Toothbrush <button onclick="removeItem(this)">Remove</button></li>
+          <li><input type="checkbox"> Shampoo <button onclick="removeItem(this)">Remove</button></li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <button class="collapsible" onclick="toggleChecklist('essentialsChecklist')">Travel Essentials</button>
+        <ul id="essentialsChecklist" class="checklist">
+          <li><input type="checkbox"> Wallet <button onclick="removeItem(this)">Remove</button></li>
+          <li><input type="checkbox"> Phone Charger <button onclick="removeItem(this)">Remove</button></li>
+        </ul>
+      </div>
+
+      <div class="category">
+        <button class="collapsible" onclick="toggleChecklist('optionalChecklist')">Optional Items</button>
+        <ul id="optionalChecklist" class="checklist">
+          <li><input type="checkbox"> Sunglasses <button onclick="removeItem(this)">Remove</button></li>
+          <li><input type="checkbox"> Hat <button onclick="removeItem(this)">Remove</button></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Toggle checklist visibility
+    function toggleChecklist(id) {
+      const checklist = document.getElementById(id);
+      checklist.style.display = checklist.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Add new item
+    function addItem() {
+      const category = document.getElementById('categorySelect').value;
+      const itemText = document.getElementById('newItemInput').value.trim();
+      if (itemText === '') return;
+      const checklistId = category + 'Checklist';
+      const checklist = document.getElementById(checklistId);
+
+      const li = document.createElement('li');
+      li.innerHTML = `<input type="checkbox"> ${itemText} <button onclick="removeItem(this)">Remove</button>`;
+      checklist.appendChild(li);
+      document.getElementById('newItemInput').value = '';
+      checklist.style.display = 'block';
+    }
+
+    // Remove item
+    function removeItem(button) {
+      button.parentElement.remove();
+    }
+
+    // Download page snapshot
+    function downloadSnapshot() {
+      const bodyClone = document.body.cloneNode(true);
+
+      // Remove scripts
+      bodyClone.querySelectorAll('script').forEach(s => s.remove());
+
+      // Remove add-item bar and remove buttons
+      bodyClone.querySelectorAll('.add-item-bar, button').forEach(el => {
+        if (el.textContent.includes('Remove') || el.classList.contains('download-btn')) {
+          el.remove();
+        }
+      });
+
+      // Replace checkboxes with symbols
+      bodyClone.querySelectorAll('.checklist li').forEach(li => {
+        const checkbox = li.querySelector('input[type="checkbox"]');
+        const isChecked = checkbox.checked;
+        const text = li.textContent.replace('Remove', '').trim();
+        li.innerHTML = `${isChecked ? '☑' : '☐'} ${text}`;
+        li.style.listStyle = 'none';
+      });
+
+      // Expand all checklist items
+      bodyClone.querySelectorAll('.checklist').forEach(list => list.style.display = 'block');
+
+      const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weekend Trip - Simple Travel Pack</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+${bodyClone.innerHTML}
+</body>
+</html>`;
+
+      const blob = new Blob([htmlContent], {type: 'text/html'});
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Weekend_Trip.html';
+      link.click();
+    }
+  </script>
+</body>
+</html>
